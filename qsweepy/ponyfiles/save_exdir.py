@@ -100,7 +100,7 @@ def get_filename(db:MyDatabase, idx: int):
 def delete_exdir(db:MyDatabase = None, indexes: list = []):
     """
     Delete exdir directory from disk
-    :param ids: list of measurements indexes to delet
+    :param ids: list of measurements indexes to delete
     """
     if db:
         folders = [get_filename(db,idx) for idx in set(indexes)]

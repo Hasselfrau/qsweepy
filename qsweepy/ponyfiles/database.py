@@ -75,6 +75,20 @@ class MyDatabase:
             query_date = Required(datetime)
         self.Queries = Queries
 
+        class Logs(db.Entity):
+            id = PrimaryKey(int, auto=True)
+            log_type = Required(str)
+            tag = Optional(str)
+            time_stamp = Required(str)
+
+        self.Logs = Logs
+        #
+        # class Logs_metadata(db.Entity):
+        #     log_id = Required(self.Logs)
+        #     meaurement_id = Optional(self.Data)
+        #     message = Required(str)
+        # self.Logs_metadata = Logs_metadata
+
         db.bind(provider, user=user, password=password, host=host, database=database, port=port)
         db.generate_mapping(create_tables=True)
         self.db = db
@@ -153,7 +167,7 @@ class MyDatabase:
         commit()
         return d.id
 
-    def get_from_database(self, filename=''):
+    def get_from_database(self, filename = ''):
         # print(select(i for i in self.Data))
         id = get(i.id for i in self.Data if (i.filename == filename))
         # print(id)
@@ -161,12 +175,12 @@ class MyDatabase:
         # state = read_exdir_new(d.filename)
         return id  # tate
 
-    def delete_from_database(self, indexes: list=[]):
+    def delete_from_database(self, indexes: list = []):
         """
         Delete measurement from tables: Data, Metadata, Reference and Linear_sweep
         usege: put list of measurements indexes to delete from database
 
-        :param indexes: list of indexes
+        :param ids: list of indexes
         """
         try:
             for idx in set(indexes):
